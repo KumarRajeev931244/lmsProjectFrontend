@@ -5,8 +5,43 @@ import nelsonMandela from '../assets/nelsonMandela.png';
 import BillGates from '../assets/BillGates.jpg';
 import apj from '../assets/apj.png';
 import steveJobs from '../assets/steveJobs.png';
+import CarouselSlide from "../components/CarouselSlide.jsx";
 
 function AboutUs() {
+
+    const celebrities = [
+        {
+            title: "- Dr. A.P.J. Abdul Kalam",
+            description: "You have to dream before your dreams can come true.",
+            image: apj,
+            slideNumber: 1
+        },
+        {
+            title: "- Nelson Mandela",
+            description: "Education is the most powerful weapon which you can use to change the world.",
+            image: nelsonMandela,
+            slideNumber: 2
+        },
+        {
+            title: "- Albert Einstein",
+            description: "Education is not the learning of facts, but the training of the mind to think.",
+            image: albert,
+            slideNumber: 3
+        },
+        {
+            title: "- Steve Jobs",
+            description: "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do.",
+            image: steveJobs,
+            slideNumber: 4
+        },
+        {
+            title: "- Bill Gates",
+            description: "Don't compare yourself with anyone in this world. If you do so, you are insulting yourself.",
+            image: BillGates,
+            slideNumber: 5
+        },
+    ]
+
     return (
         <HomeLayout>
             <div className="pl-20 pt-20 flex flex-col text-white">
@@ -27,8 +62,17 @@ function AboutUs() {
                 </div>
                 {/* carousel */}
 
-                <div className="carousel w-1/2 my-16 m-auto">
-                    {/* slide 1 */}
+                <div className="carousel w-1/2 m-auto">
+
+                    {celebrities && celebrities.map(celebrity => 
+                        (<CarouselSlide 
+                            {...celebrity} 
+                            key={celebrity.slideNumber} 
+                            totalSlide={celebrities.length}
+                        />
+                    ))}
+                    
+                    {/* slide 1
                     <div id="slide1" className="carousel-item relative w-full">
                         <div className="flex flex-col items-center justify-center gap-4 px-[15%]"> 
                          <p className="text-xl text-gray-200 text-center">
@@ -46,7 +90,7 @@ function AboutUs() {
                         </div>
                     </div>
                     {/* slide 2 */}
-                    <div id="slide2" className="carousel-item relative w-full">
+                    {/* <div id="slide2" className="carousel-item relative w-full">
                        <div className="flex flex-col items-center justify-center gap-4 px-[15%]">
                         <p className="tet-xl text-gray-200">
                         "Education is the most powerful weapon which you can use to change the world." <br />
@@ -62,10 +106,10 @@ function AboutUs() {
                             <a href="#slide3" className="btn btn-circle">❯</a>
                         </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* slide 3 */}
-                    <div id="slide3" className="carousel-item relative w-full">
+                    {/* <div id="slide3" className="carousel-item relative w-full">
                        <div className="flex flex-col items-center justify-center gap-4 px-[15%]">
                         <p className="tet-xl text-gray-200">
                         "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do." <br />
@@ -80,11 +124,11 @@ function AboutUs() {
                             <a href="#slide4" className="btn btn-circle">❯</a>
                         </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* slide 4 */}
                     
-                    <div id="slide4" className="carousel-item relative w-full">
+                    {/* <div id="slide4" className="carousel-item relative w-full">
                        <div className="flex flex-col items-center justify-center gap-4 px-[15%]">
                         <p className="text-xl text-gray-200 text-center">
                             "Education is not the learning of facts, but the training of the mind to think." <br />
@@ -99,12 +143,12 @@ function AboutUs() {
                             <a href="#slide5" className="btn btn-circle">❯</a>
                         </div>
                         </div>
-                    </div>
+                    </div> */}
                     
 
                     {/* slide 5 */}
 
-                    <div id="slide5" className="carousel-item relative w-full">
+                    {/* <div id="slide5" className="carousel-item relative w-full">
                        <div className="flex flex-col items-center justify-center gap-4 px-[15%]">
                         <p className="tet-xl text-gray-200">
                         "Don't compare yourself with anyone in this world. If you do so, you are insulting yourself." <br />
@@ -120,7 +164,7 @@ function AboutUs() {
                             <a href="#slide1" className="btn btn-circle">❯</a>
                         </div>
                         </div>
-                    </div>
+                    </div>  */}
                 </div>
 
 
