@@ -5,7 +5,7 @@ function CourseCard({data}) {
     const navigate = useNavigate()
     return (
          <div 
-         onClick={() => navigate('/courses/descrition')}
+         onClick={() => navigate('/courses/description')}
          className="text-white w-[22em] shadow-lg rounded-lg coursor-pointer group overflow-hidden ">
             <img 
                 src= {data?.thumbnail?.secure_url}
@@ -20,15 +20,15 @@ function CourseCard({data}) {
                     {data?.description}
                 </p>
                 <p className="font-semibold">
-                    <span className="text-yellow-500 font-bold"> category</span>
+                    <span className="text-yellow-500 font-bold space-y-3"> category: </span>
                     {data?.category}
                 </p>
                 <p className="font-semibold">
-                    <span className="text-yellow-500 font-bold"> Total lecture</span>
-                    {data?.numberoflectures}
+                    <span className="text-yellow-500 font-bold"> Total lecture: </span>
+                    {data?.numbersOfLectures}
                 </p>
                 <p className="font-semibold">
-                    <span className="text-yellow-500 font-bold"> Instructor</span>
+                    <span className="text-yellow-500 font-bold"> Instructor: </span>
                     {data?.createdBy}
                 </p>
             </div>
