@@ -5,7 +5,7 @@ function CourseCard({data}) {
     const navigate = useNavigate()
     return (
          <div 
-         onClick={() => navigate('/courses/description')}
+         onClick={() => navigate('/courses/description', {state: {...data}})}
          className="text-white w-[22em] shadow-lg rounded-lg coursor-pointer group overflow-hidden ">
             <img 
                 src= {data?.thumbnail?.secure_url}
