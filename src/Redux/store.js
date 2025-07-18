@@ -1,8 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import authSliceReducer from './Slice/AuthSlice.js';
+import courseSliceReducer from './Slice/CourseSlice.js'
 
 const store = configureStore({
-    reducer: {auth:authSliceReducer},
+    reducer: {
+        auth:authSliceReducer,
+        course:courseSliceReducer
+    
+    },
     devTools: true
 
 })

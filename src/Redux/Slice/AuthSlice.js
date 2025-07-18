@@ -12,7 +12,7 @@ const initialState = {
 // it will return a promise that will be resolved when the user is created successfully
 export const createAccount = createAsyncThunk("/auth/signup", async(data) => {
     try {
-        const response = axiosInstance.post("/register", data)
+        const response = axiosInstance.post("/users/register", data)
         console.log("create account response:",response);
         toast.promise(response, {
             loading: "Wait! creating your account",
@@ -30,10 +30,66 @@ export const createAccount = createAsyncThunk("/auth/signup", async(data) => {
     
 })
 
+export const login = createAsyncThunk("/auth/login", async(data) => {
+    try {
+        const response = axiosInstance.post("/users/login", data)
+        console.log("login response:",response);
+        toast.promise(response, {
+            loading: "Wait! login in your account",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: "failed to login"
+        })
+        return (await response).data
+
+    } catch (error) {
+        console.error("Error in login:", error);
+        toast.error(error?.response?.data?.message);
+    }
+    
+})
+
+export const logout = createAsyncThunk('/auth/logout', async() => {
+    try {
+        const response = axiosInstance.get('/users/logout');
+        console.log("logout response:",response);
+        toast.promise(response, {
+            loading: "wait! logout in progress..",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: "failed to logout"
+        })
+        return (await response).data;
+    } catch (error) {
+        toast.error(error?.response?.data?.message); 
+    }
+
+})
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {}
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(login.fulfilled, (state, action) => {
+            console.log("action:", action);
+            localStorage.setItem("data", JSON.stringify(action?.payload?.user))
+            localStorage.setItem("isLoggedIn", true)
+            localStorage.setItem("role", action?.payload?.role);
+            state.isLoggedIn = true;
+            state.data = action?.payload?.user;
+            state.role = action?.payload?.role;
+        } )
+        .addCase(logout.fulfilled, (state) => {
+            localStorage.clear();
+            state.data = {};
+            state.isLoggedIn = false;
+            state.role = ""
+        })
+
+    }
 })
 
 export const {} = authSlice.actions
