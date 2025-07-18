@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {toast} from 'react-hot-toast'
 import { createAccount } from "../Redux/Slice/AuthSlice.js";
+import { isEmail, isPassword } from "../Helpers/regexMatcher.js";
 function Signup () {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -62,16 +63,26 @@ function Signup () {
             toast.error("fullname should be atleast 5 characters long")
             return
         }
-        if(!signupData.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
+        // if(!signupData.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
+        //     toast.error("invalid email id");
+        //     return;
+        // }
+
+        if(!isEmail(signupData.email)){
             toast.error("invalid email id");
-            return;
+        //     return;
         }
 
         // check password validation
         // console.log(!signupData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/));
-        if(!signupData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)){
-            toast.error("Password should be 8-16 character long with atleast one upper and lower case letter and number")
-            return;
+        // if(!signupData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)){
+        //     toast.error("Password should be 8-16 character long with atleast one upper and lower case letter and number")
+        //     return;
+        // }
+
+        if(!isPassword(signupData.password)){
+             toast.error("Password should be 8-16 character long with atleast one upper and lower case letter and number")
+             return;
         }
         // create a form data object to send the data to the server
         const formData = new FormData();
