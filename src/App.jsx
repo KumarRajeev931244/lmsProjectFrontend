@@ -12,6 +12,7 @@ import CourseDescription from "./pages/Course/CourseDescription";
 import RequireAuth from "./components/Auth/RequireAuth";
 import CreateCourse from "./pages/Course/CreateCourse";
 import Profile from "./pages/Profile/Profile";
+import EditProfile from "./pages/EditProfile.jsx";
 
 function App() {
     return (  
@@ -25,19 +26,23 @@ function App() {
             <Route path="/courses" element={<CourseList/>}></Route>
             <Route path="/contact" element={<Contact/>}></Route>
             <Route path="/denied" element={<Denied/>}></Route>
-             <Route path="/courses/description" element={<CourseDescription/>}></Route>
-             <Route path="/courses/create" element={<CreateCourse/>}></Route>
-            <Route path="/user/profile" element={<Profile/>}></Route>
-            
-            <Route element={<RequireAuth allowedRoles={["ADMIN" ,"USER"]}/>}>
-                <Route path="/user/profile" element={<Profile/>}></Route>
-            </Route>
-
-
-{/*             
+            <Route path="/courses/description" element={<CourseDescription/>}></Route>
+            <Route path="/courses/create" element={<CreateCourse/>}></Route>
+            {/* <Route path="/user/profile" element={<Profile/>}></Route> */}
+                     
+                  
             <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
                 <Route path="/courses/create" element={<CreateCourse/>}></Route>
-            </Route> */}
+            </Route> 
+
+            <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} /> } >
+                <Route path="/user/profile" element={<Profile/>} />
+                <Route path="/user/editprofile" element={<EditProfile/>} />  
+                
+
+            </Route>
+
+        
 
 
         </Routes>
