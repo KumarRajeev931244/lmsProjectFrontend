@@ -14,17 +14,18 @@ const initialState = {
 export const getRazorpayId = createAsyncThunk('/razorpay/getId', async () => {
     try {
         const response = await axiosInstance.get('payments/razorpay-key')
-        
-        return  response.data
+        console.log("get razorpay id response:", response.data);
+        return  response?.data
     } catch (error) {
         toast.error(error?.response?.data?.message)
         
     }
 })
 
-export const purchaseCourseBundle = createAsyncThunk('/razorpay/getId', async () => {
+export const purchaseCourseBundle = createAsyncThunk('/razorpay/subscribe', async () => {
     try {
         const response = await axiosInstance.post('payments/subscribe')
+        console.log("purchase course bundle response data:", response.data);
          return  response.data
     } catch (error) {
         toast.error(error?.response?.data?.message)
@@ -35,10 +36,11 @@ export const purchaseCourseBundle = createAsyncThunk('/razorpay/getId', async ()
 export const verifyUserPayment = createAsyncThunk('/payments/verify', async(data) => {
     try {
         const response = await axiosInstance.post('/payments/verify', {
-            razorpay_payment_id: data.razorpay_payment_id,
-            razorpay_signature: data.razorpay_signature,
-            razorpay_subscription_id: data.razorpay_subscription_id
+            razorpay_payment_id: data?.razorpay_payment_id,
+            razorpay_signature: data?.razorpay_signature,
+            razorpay_subscription_id: data?.razorpay_subscription_id
         })
+        console.log("verify user payment response:", await response);
         return (await response)?.data
         
     } catch (error) {
@@ -96,7 +98,7 @@ const razorpaySlice = createSlice({
             state.isPaymentVerified = action?.payload?.success
         })
         .addCase(verifyUserPayment.rejected, (state, action) => {
-            toast.success(action?.payload?.message)
+            toast.error(action?.payload?.message)
             state.isPaymentVerified = action?.payload?.success
         })
         .addCase(getPaymentRecord.fulfilled, (state,action) => {
