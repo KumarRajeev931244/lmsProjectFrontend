@@ -50,7 +50,7 @@ function Profile() {
                         </Link>
                     </div>
 
-                    {userData?.subscription?.status === 'created' && (
+                    {userData?.subscription?.status==='active' && (
                         <button onClick={handleCancellation} className=" bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm font-semibold py-2 cursor-pointer text-center">cancel subscription</button>
                     )}
                 </div>

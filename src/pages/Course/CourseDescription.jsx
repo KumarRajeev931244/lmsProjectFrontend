@@ -35,7 +35,9 @@ function CourseDescription() {
                             </p>
                         </div>
                         {
-                            role === 'ADMIN' || data?.subscription?.status === "ACTIVE" ? (<button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300">
+                            role === 'ADMIN' || data?.subscription?.status === "actiive" ? (<button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+                            onClick={() => navigate('/course/displayLectures', {state: {...state}}) }
+                            >
                                 watch lectures
                             </button>) : (<button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300" onClick={ () => navigate('/checkout')}> subscribe </button>)
                         }
