@@ -9,7 +9,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { CiTrash } from "react-icons/ci";
 import {  BsCollectionPlayFill } from "react-icons/bs";
 import { deleteCourseLecture } from "../Redux/Slice/LectureSlice";
-import { getAllCourses } from "../Redux/Slice/CourseSlice";
+import { deleteCourse, getAllCourses } from "../Redux/Slice/CourseSlice";
 import HomeLayout from "../Layouts/HomeLayout";
 import { getStatsData } from "../Redux/Slice/StatSlice";
 import { getPaymentRecord } from "../Redux/Slice/RazorpaySlice";
@@ -23,6 +23,8 @@ function AdminDashboard(){
     console.log(allUsersCount,subscribedUsersCount);
     const {allPayment, finalMonths, monthlySalesRecord} = useSelector((state) => state?.razorpay)
     console.log("all payments:",allPayment);
+    console.log("monthlySalesRecord:",monthlySalesRecord);
+    console.log("finalMonths:",finalMonths);
     const userData = {
         labels: ["Registered User", "Enrolled User"],
         datasets: [{
@@ -43,7 +45,8 @@ function AdminDashboard(){
                 label: "sales/month",
                 data: monthlySalesRecord,
                 backgroundColor: ['rgb(255,99,132)'],
-                borderWidth: 2
+                borderWidth: 2,
+                borderColor:["white"]
             }
         ]
     }
@@ -53,7 +56,7 @@ function AdminDashboard(){
 
     async function onCourseDelete(id){
         if(window.confirm('are you sure you want to delete the course ?')){
-            const res = await dispatch(deleteCourseLecture(id));
+            const res = await dispatch(deleteCourse(id));
             if(res?.payload?.success){
                 await dispatch(getAllCourses())
             }
@@ -111,17 +114,18 @@ function AdminDashboard(){
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="grid grid-cols-2 gap-5">
-                                <div className="flex items-center justify-between   p-5 gap-5 rounded-md shadow">
+                                <div className="flex items-center justify-between   p-5 gap-5 rounded-md shadow border">
                                     <div className="flex flex-col items-center">
                                         <p className="font-semibold">Subscription count</p>
-                                        <h3 className="text-4xl font-bold"> {allPayment?.count}</h3>
+                                        <h3 className="text-4xl font-bold"> {allPayment.count}</h3>
+                                        
                                     </div>                                   
                                 </div>
                                 <FcSalesPerformance  className="text-yellow-500 text-5xl"/>
-                                <div className="flex items-center justify-between   p-5 gap-5 rounded-md shadow">
+                                <div className="flex items-center justify-between   p-5 gap-5 rounded-md shadow border">
                                     <div className="flex flex-col items-center">
-                                        <p className="font-semibold">Total Revenue</p>
-                                        <h3 className="text-4xl font-bold">{(allPayment?.count)* 499}</h3>
+                                        <p className="font-semibold ">Total Revenue</p>
+                                        <h3 className="text-4xl font-bold">{(allPayment.count)*499}</h3>
                                        
                                     </div>                           
                                </div>
@@ -140,7 +144,7 @@ function AdminDashboard(){
                             <button
                                 className="w-fit bg-yellow-500 hover:bg-yellow-600 transition-all ease-in-out duration-300 py-2 px-4 font-semibold text-lg cursor-pointer" 
                                 onClick={() => {
-                                    navigate('/course/create')
+                                    navigate('/courses/create')
                                 }}>
                                     create new course
                             </button>

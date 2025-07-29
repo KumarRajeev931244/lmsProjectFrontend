@@ -9,15 +9,10 @@ function Displaylecture(){
     const navigate =  useNavigate();
     const dispatch = useDispatch()
     const {state} = useLocation()
+    console.log("state:",state);
     const {lectures} = useSelector((state) => state?.lecture)
     console.log("lectures:",lectures);
-    // const lecturesId = lectures[0].lectures[0]._id;
-    // console.log("lectureId", lecturesId);
-    // const lecturesID = Object.fromEntries(lectures)
-    // console.log("lectureId",lecturesID);
-    // const allLectureIds = lectures.flatMap(module =>
-    //     module.lectures.map(lecture => lecture._id)
-    // );
+    
     
     const {role} = useSelector((state) => state.auth)
     const [currentVideo, setCurrentVideo] = useState(0);
@@ -46,16 +41,17 @@ function Displaylecture(){
                     course name: {state?.title}
                 </div>
                 {
-                    lectures && (lectures).length > 0 && <div className="flex justify-center gap-10 w-full ">
+                    (lectures && lectures.length > 0) ? (<div className="flex justify-center gap-10 w-full ">
                     {/* left section for playing video and displaying course details to admin */}
                     <div className="space-y-5 w-[20rem] p-2 rounded-lg shadow-[0_0_10px]">
                         <video 
-                        src={lectures && lectures[currentVideo]?.lecture?.secure_url }
-                        className="object-fill rounded-tl-lg rounded-tr-lg w-full"
+                        src={lectures && lectures[currentVideo]?.lectures?.secure_url }
+                        className="object-fill rounded-tl-lg rounded-tr-lg w-full h-[15rem]"
                         controls
                         disablePictureInPicture
                         muted
                         controlsList="nodownload"
+                        
                         >
 
                         </video>
@@ -80,47 +76,32 @@ function Displaylecture(){
                             <p>lecture list</p>
                             {
                                 role==="ADMIN" && (
-                                    <button onClick={() => navigate("/addLecture", {state: {...state}})} className="btn-primary px-2 py-1 rounded-md font-semibold text-sm ">
+                                    <button onClick={() => navigate("/addLecture", {state: {...state}})} className="btn btn-outline btn-accent ">
                                         Add new lecture
                                     </button>
                                 )
                             }
                         </li>
-                        {lectures.flatMap(course => course.lectures).map((lecture, index) => (
-                            <div key={index} className="cursor-pointer" onClick={() => setCurrentVideo(index)}>
-                                <span>
-                                    {" "} Lecture {index + 1}{": "}{lecture.title}<br/>                                  
-                                </span>
-                                <span>
-                                    description{":"}{lecture.description}
-                                </span>
-                                <br />
-                                {/* {console.log("lectureId::",lecture?._id)} */}
-                                {console.log(state?._id)}
-                            {role==="ADMIN" && (<button className="btn btn-soft btn-accent" onClick={() => onlectureDelete(state?._id,lecture?._id) }>
-                                        Delete lecture
-                                    </button>
-                                )
-                            }  
-                            </div>
-                            
 
-                        ))}
-
-
-                        {/* {lectures &&
+                        {lectures &&
                             lectures.map((lecture,idx) => {
                                 return (
                                     <li className="space-y-2" key={lecture._id} >
                                         <p className="cursor-pointer" onClick={() => setCurrentVideo(idx)}>
                                         <span>
-                                            {" "} Lecture {idx + 1} : {" "}
+                                            {" "} Lecture {idx + 1} : {lecture.title}
+                                        </span><br />
+                                        <span>
+                                            {" "} Description : {lecture.description}
                                         </span>
-                                        
                                         </p>
                                         {
                                             role==="ADMIN" && (
-                                            <button onClick={(state?._id, lecture?._id)} className=" btn-accent px-2 py-1 rounded-md font-semibold text-sm ">
+                                            <button 
+                                            onClick={() => {
+                                                onlectureDelete(state?._id,lecture?._id)
+                                            }}
+                                            className=" btn btn-outline btn-accent ">
                                         Delete lecture
                                     </button>
                                 )
@@ -129,9 +110,14 @@ function Displaylecture(){
                                     </li>
                                 )
                             })
-                        } */}
+                        }
                     </ul>
-                </div> 
+                </div> ) : (role==="ADMIN" && (
+                                    <button onClick={() => navigate("/addLecture", {state: {...state}})} className="btn btn-outline btn-accent ">
+                                        Add new lecture
+                                    </button>
+                                )
+                )
                  }
             </div>            
         </HomeLayout>

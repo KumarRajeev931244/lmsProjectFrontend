@@ -8,29 +8,29 @@ import toast from "react-hot-toast";
 
 function AddLecture(){
     const courseDetails = useLocation().state;
-    console.log("course Details:",courseDetails);
+    // console.log("course Details:",courseDetails);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [userInput, setUserInput]= useState({
         id:courseDetails?._id,
         lecture: undefined,
         title:'',
-        discription:'',
+        description:'',
         videoSrc:''
     })
     // console.log("add lecture userInupt:",userInput);
 
     function handleInputChange(e){
-        e.preventDefault()
-        console.log("event:", e);
         const {name, value} = e.target
+        console.log("name:",name),
         setUserInput({
+            ...userInput,
             [name]: value
-        })
+        });
     }
 
     function handleVideo(e){
-        e.preventDefault()
+        // e.preventDefault()
         const video = e.target.files[0]
         const  source = window.URL.createObjectURL(video)
         console.log("source:",source);
@@ -43,7 +43,7 @@ function AddLecture(){
 
     async function onFormSubmit(e){
         e.preventDefault()
-        if(!userInput.lecture || !userInput.title || !userInput.discription){
+        if(!userInput.lecture || !userInput.title || !userInput.description){
             toast.error("All field are mandatory")
             return
         }
@@ -58,7 +58,10 @@ function AddLecture(){
                 videoSrc:''
             })
         }
+        console.log(response );
     }
+   console.log("userInput:",userInput);
+
     useEffect(() => {
         if(!courseDetails){
             navigate('/courses')
@@ -96,7 +99,7 @@ function AddLecture(){
                              placeholder="enter the description of the lecture"
                              onChange={handleInputChange}
                              className="bg-transparent px-3 py-1 border resize-none overflow-y-scroll h-9"
-                             value={userInput.discription} 
+                             value={userInput.description} 
                         >
                         </textarea>
                         {userInput.videoSrc ? (
@@ -105,11 +108,12 @@ function AddLecture(){
                                 src={userInput.videoSrc}
                                 controlsList="nodownload nofullscreen"
                                 disablePictureInPicture 
-                                className="object-fill rounded-tl-lg rounded-tr-lg w-full border-black"   
+                                className="object-fill rounded-tl-lg rounded-tr-lg w-full border-black cursor-pointer"   
                             ></video>
                         ):(
-                            <div className="h-48 boder flex items-center justify-center cursor-pointer" >
-                                <label htmlFor="lecture" className="font-semibold text-cl cursor-pointer" >choose your video</label>
+                            <div className="h-48 boder flex items-center justify-center cursor-pointer " >
+                                <label htmlFor="lecture" className="font-semibold text-cl cursor-pointer " >choose your video</label>
+                                
                                 <input
                                 type="file"
                                 className="hidden" 
@@ -119,7 +123,7 @@ function AddLecture(){
                                 accept="video/mp4 video/x-mp4 video/*" />
                             </div>
                         )}
-                        <button type="submit" className="btn btn-primary py-1 font-semibold text-lg">
+                        <button type="submit" className="btn btn-outline btn-accent">
                             Add new Lecuture
                         </button>
                     </form>
